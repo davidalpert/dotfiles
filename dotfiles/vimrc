@@ -1,0 +1,110 @@
+" ---------- BASIC OPTIONS ----------
+
+" just gimme vim!
+"set nocompatible
+
+" set filetype stuff to on
+syntax enable
+filetype on
+filetype plugin on
+filetype indent on
+
+" ignore swap and sass temp files
+set wildignore=*.swp,*.scssc,*.sassc
+
+" no wrap by default
+set nowrap
+
+" gimme some line numbers
+set number
+
+" yank to system clipboard
+set clipboard=unnamed
+
+" store temp files in a central spot
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+" configure tabs
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" set the search scan so that it ignores case when the search is all lower
+" case but recognizes uppercase if it's specified
+set ignorecase
+set smartcase
+
+" silence the beep
+set visualbell
+
+" allow backspacing over indent, eol, and the start of an insert
+set backspace=2
+
+" make sure that unsaved buffers that are to be put in the background are
+" allowed to go in there (ie. the "must save first" error doesn't come up)
+"set hidden
+
+" show the current command in the lower right corner
+set showcmd
+
+" show the current mode
+set showmode
+
+" hide the mouse pointer while typing
+set mousehide
+
+" allow pasting into other apps and use simple dialogs
+"set guioptions=ac
+
+" this is the timeout used while waiting for user input on a multi-keyed macro
+" or while just sitting and waiting for another key to be pressed measured
+" in milliseconds.
+" 
+" i.e. for the ",d" command, there is a "timeoutlen" wait period between the
+"      "," key and the "d" key.  If the "d" key isn't pressed before the
+"      timeout expires, one of two things happens: The "," command is
+"      executed if there is one (which there isn't) or the command aborts.
+set timeoutlen=500
+
+" keep some stuff in the history
+set history=100
+
+" when the page starts to scroll, keep the cursor 3 lines from the top and 3
+" lines from the bottom
+set scrolloff=3
+
+" make the command-line completion better
+set wildmenu
+
+" set the textwidth to be 120 chars
+set textwidth=120
+
+" get rid of the silly characters in window separators
+set fillchars=""
+
+" Add ignorance of whitespace to diff
+set diffopt+=iwhite
+
+" Enable search highlighting
+set hlsearch
+
+" Incrementally match the search
+set incsearch
+
+" Initial path seeding
+set path=
+set path+=~/dev/**
+set path+=~/lib/**
+
+" syntax coloring lines that are too long just slows down the world
+set synmaxcol=2048
+
+set laststatus=2
+
+" ruby syntax highlighting for watchr scripts
+"au BufRead,BufNewFile *.watchr set filetype=ruby
+
+" ---------- MAPPINGS ----------
+
+noremap ; :noh<cr><esc>
