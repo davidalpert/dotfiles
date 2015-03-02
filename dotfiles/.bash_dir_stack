@@ -1,0 +1,94 @@
+# -------------------------------------------------------------------------------
+# http://www.aijazansari.com/2010/02/20/navigating-the-directory-stack-in-bash/
+#
+
+# An enhanced 'cd' - push directories
+# onto a stack as you navigate to it.
+#
+# The current directory is at the top
+# of the stack.
+#
+function stack_cd {
+  if [ "$1" ]; then
+    # use the pushd bash command to push the directory
+    # to the top of the stack, and enter that directory
+    pushd "$1" > /dev/null
+  else
+    # the normal cd behavior is to enter $HOME if no
+    # arguments are specified
+    pushd $HOME > /dev/null
+  fi
+}
+
+# the cd command is now an alias to the stack_cd function
+#
+alias cd=stack_cd
+
+# Swap the top two directories on the stack
+#
+function swap {
+  pushd > /dev/null
+}
+
+# s is an alias to the swap function
+alias s=swap
+
+# Pop the top (current) directory off the stack
+# and move to the next directory
+#
+function pop_stack {
+  popd > /dev/null
+}
+
+alias p=pop_stack
+
+# Display the stack of directories and prompt
+# the user for an entry.
+#
+# If the user enters 'p', pop the stack.
+# If the user enters 'c', clear the stack.
+# If the user enters a number, move that directory to the top of the stack
+# If the user enters anything else don't do anything.
+#
+function display_stack {
+  dirs -v
+  echo -n "#: "
+  read dir
+
+  case $dir in
+    ''|*[!0-9]*) isANumber=0;;
+    *) isANumber=1;;
+  esac
+
+  if [[ $dir = 'p' ]]; then
+    echo -n "popping..."
+    pop_stack
+  elif [[ $dir = 'c' ]]; then
+    echo -n "clearing..."
+		dirs -c > /dev/null
+  elif [[ $dir = 's' ]]; then
+    echo -n "swapping..."
+		swap
+  elif [[ $isANumber = 1 ]]; then
+    echo -n "swapping..."
+    d=$(dirs -l +$dir);
+    popd +$dir > /dev/null
+    pushd "$d" > /dev/null
+  else
+    echo -n "no change"
+  fi
+}
+
+alias d=display_stack
+
+function test {
+  read d
+  re="^\d+$"
+  case $d in
+    ''|*[!0-9]*) echo -n "it's not a number";;
+    *) echo -n "it's a number" ;;
+  esac
+}
+
+alias t=test
+
