@@ -1,0 +1,92 @@
+[user]
+	email = david@spinthemoose.com
+	name = David Alpert
+[merge]
+	keepBackup = false
+	tool = p4merge
+[mergetool "p4merge"]
+	cmd = 'c:/program files/perforce/p4merge.exe' $BASE $LOCAL $REMOTE $MERGED
+	keepTemporaries = false
+	trustExitCode = false
+	keepBackup = false
+[core]
+	autocrlf = true
+	safecrlf = warn
+[alias]
+	st = status
+	ci = commit --allow-empty
+	amend = commit --amend --allow-empty
+	save = !git add -A && git commit -m 'SAVEPOINT'
+	wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+	br = branch
+	co = checkout
+	cob = checkout -b
+	pad = add --patch
+	untrack = rm --cache --
+
+	who = shortlog -s --
+	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+
+	alias = "!sh -c '[ $# = 2 ] && git config --global alias.\"$1\" \"$2\" && exit 0 || echo \"usage: git alias <new alias> <original command>\" >&2 && exit 1' -"
+	aliases = !git config --get-regexp 'alias.*' 
+
+  drop = "!sh -c 'git merge drop$1 && git ci --allow-empty --amend -- && git lg -2' -"
+  patch = "!sh -c 'git merge patch$1 && git ci --allow-empty --amend -- && git lg -2' -" 
+
+	lg  = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %-n%Cgreen(%ci)%Creset%-n' --date=relative
+	lg2  = "!git lg -2"
+  change-date = "!git diff-index --cached --quiet HEAD --ignore-submodules -- && GIT_COMMITTER_DATE=\"$1\" git commit --allow-empty --amend -C HEAD --date \"$1\"" || echo >&2 "error: date change failed: index not clean!"
+  cd = "!git diff-index --cached --quiet HEAD --ignore-submodules -- && GIT_COMMITTER_DATE=\"$1\" git commit --allow-empty --amend -C HEAD --date \"$1\"" || echo >&2 "error: date change failed: index not clean!"
+
+	remove-branch = "!sh -c 'git for-each-ref --format=\"%(refname:short)\" refs/heads/$1 | xargs git branch -D' -"
+
+	plog = log --pretty=format:'%Creset%h %Cred%cr%Creset %cn %Cgreen%s%Creset'
+	glog = log --graph --pretty=format:'%Creset%h %Cred%cr%Creset %cn %Cgreen%s%Creset/n'
+	xlog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset/n' --abbrev-commit --date=relative
+	clog = log --pretty=format:'%h was %an, %ar, message: %s/n'
+	lg1 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lg0 = log --pretty=format:'%h %ad | %d%s [%an]' --graph --date=short
+	lg0c = log --pretty=format:'%h %ad | %s [%an]' --graph --date=short
+
+	#rad = "!sh -c 'git remote add rel_2014_crc6_drop$1 ../bgc.rel_2014_crc6_drop$1' -"
+
+	ndev=log dev-last..dev --pretty=format:'%ad - %an <%ae>%n%B' 
+	ndevc=log dev-last..dev --pretty=format:'%C(yellow)%ad - %Cgreen%an %Cgreen<%ae>%Creset%n%B'
+	nqa=log qa-last..qa --pretty=format:'%ad - %an <%ae>%n%B' 
+	nqac=log qa-last..qa --pretty=format:'%C(yellow)%ad - %Cgreen%an %Cgreen<%ae>%Creset%n%B'
+[difftool "p4merge"]
+	path = C:/Program Files/P4Merge/
+	cmd = "p4merge.exe $LOCAL $REMOTE"
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[color "status"]
+	added = cyan
+	changed = red
+	untracked = yellow bold
+[achievement]
+	upload = true
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = spinthemoose@gmail.com
+	smtpserverport = 587
+[difftoo]
+	prompt = false
+[diff]
+	tool = bc3
+[difftool "bc3"]
+	cmd = "C:/Program\\ Files\\ \\(x86\\)/Beyond\\ Compare\\ 3/bcomp.exe $LOCAL $REMOTE"
+[mergetool "bc3"]
+	cmd = "C:/Program\\ Files\\ \\(x86\\)/Beyond\\ Compare\\ 3/bcomp.exe $LOCAL $REMOTE $BASE $MERGED"
+[gui]
+[svn]
+	rmdir = true
+[gui]
+	recentrepo = D:/dev/git/g3
+	recentrepo = D:/dev/git/t/gen3
+	recentrepo = D:/dev/git/t/kwi
+[push]
+	default = simple
